@@ -2,8 +2,8 @@ import os
 
 
 def read_dialogs():
-    path = '../proposed_dataset/new_project'
-    output_path = '../proposed_dataset/new_test_cross_project/'
+    path = 'C:\\Users\\wangs\\Documents\\GitFiles\\Respondent_Recommendation\\Data\\Gitter_Channels\\Scikitlearn\\ISPY\\Angular\\'
+    output_path = 'C:\\Users\\wangs\\Documents\\GitFiles\\Respondent_Recommendation\\Data\\Gitter_Channels\\Scikitlearn\\ISPY\\Angular\\'
     candidate_files = []
     for root, dirs, files in os.walk(path):
         print("root", root)
@@ -12,7 +12,8 @@ def read_dialogs():
         candidate_files = files
     for dialog_file in candidate_files:
         dialog_list, dialog = [], []
-        with open(path + '/' + dialog_file, mode='r', encoding='utf8') as fin:
+
+        with open(path + dialog_file, mode='r', encoding='utf8') as fin:
             utterance_list = fin.readlines()
         with open(output_path + dialog_file.replace('.txt', '') + '.tsv', 'w', encoding='utf8') as fout:
             user_name = ''

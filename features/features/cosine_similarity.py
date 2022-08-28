@@ -1,6 +1,6 @@
 import math
 from collections import Counter
-from features.data_helper import tokenizer
+from data_helper import tokenizer
 from pprint import pprint
 from copy import deepcopy
 

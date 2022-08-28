@@ -1,5 +1,9 @@
+import nltk 
+nltk.download('vader_lexicon')
+
+
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
-from features.data_helper import tokenizer, load_sentiment_lexicon
+from data_helper import tokenizer, load_sentiment_lexicon
 
 
 def sentiment_scores(sentences):

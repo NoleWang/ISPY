@@ -1,6 +1,6 @@
-# import nltk
-# nltk.download('stopwords')
-from features.data_helper import tokenizer
+import nltk
+nltk.download('stopwords')
+from data_helper import tokenizer
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
 

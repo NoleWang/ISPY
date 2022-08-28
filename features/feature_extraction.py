@@ -7,12 +7,12 @@
 # import nltk
 # nltk.download('vader_lexicon')
 from pprint import pprint
-from features.features.cosine_similarity import cosine_similarity
-from features.features.content_features import *
-from features.features.user_features import *
-from features.features.structural_features import *
-from features.features.sentiment_features import *
-from features.data_helper import *
+from features.cosine_similarity import cosine_similarity
+from features.content_features import *
+from features.user_features import *
+from features.structural_features import *
+from features.sentiment_features import *
+from data_helper import *
 
 # %%
 
@@ -22,22 +22,22 @@ from features.data_helper import *
 
 # %%
 
-idf_file = '../data/idf.tsv'
+idf_file = 'idf.tsv'
 
 # train_feat_file = '../data/msdialog/train_features.tsv'
 # valid_feat_file = '../data/msdialog/valid_features.tsv'
 # test_feat_file = '../data/msdialog/test_features.tsv'
 
-pos_file = '../data/positive-words.txt'
-neg_file = '../data/negative-words.txt'
+pos_file = 'positive-words.txt'
+neg_file = 'negative-words.txt'
 term_to_idf_dict = init_tf_idf_dict(idf_file)
 pos_dict, neg_dict = load_sentiment_lexicon(pos_file, neg_file)
 
 # %%
 # projects = ['angular', 'appium', 'deeplearning4j', 'docker', 'ethereum', 'gitter', 'nodejs', 'typescript']
-projects = ['materialize', 'springboot', 'webpack']
-in_file_list = [f'../proposed_dataset/new_test_cross_project/{project}.tsv' for project in projects]
-out_file_list = [f'../proposed_dataset/new_test_cross_project/{project}_features.tsv' for project in projects]
+projects = ['Angular']
+in_file_list = [f'C:\\Users\\wangs\\Documents\\GitFiles\\Respondent_Recommendation\\Data\\Gitter_Channels\\Scikitlearn\\ISPY\\Angular\\{project}.tsv' for project in projects]
+out_file_list = [f'C:\\Users\\wangs\\Documents\\GitFiles\\Respondent_Recommendation\\Data\\Gitter_Channels\\Scikitlearn\\ISPY\\Angular\\{project}_features.tsv' for project in projects]
 for in_file, out_file in zip(in_file_list, out_file_list):
     with open(in_file, encoding='utf8') as fin, open(out_file, 'w', encoding='utf8') as fout:
         utterances = []

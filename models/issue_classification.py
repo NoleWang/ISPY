@@ -5,13 +5,13 @@
 from __future__ import print_function
 
 import os
-os.environ["PATH"] += os.pathsep + 'E:/Graphviz2.38/bin'
+#os.environ["PATH"] += os.pathsep + 'E:/Graphviz2.38/bin'
 
 import tensorflow as tf
 # import keras.backend.tensorflow_backend as KTF
 # 指定第一块GPU可用
-os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
-os.environ["CUDA_VISIBLE_DEVICES"] = "0"# config = tf.ConfigProto()
+#os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
+#os.environ["CUDA_VISIBLE_DEVICES"] = "0"# config = tf.ConfigProto()
 # config.gpu_options.allow_growth=True   #不全部占满显存, 按需分配
 # config.gpu_options.per_process_gpu_memory_fraction = 0.3
 
@@ -25,22 +25,22 @@ import math
 import sys
 import numpy as np
 from keras.preprocessing.text import Tokenizer
-from keras.preprocessing.sequence import pad_sequences
+from keras_preprocessing.sequence import pad_sequences
 from keras.utils import to_categorical
 from keras.layers import Dense, Input, GlobalMaxPooling1D, Dropout, concatenate, Concatenate, GlobalAveragePooling1D
 from keras.layers import Conv1D, MaxPooling1D, Embedding, Bidirectional, LSTM, Lambda
 from keras.models import Model
-from models.custom_metrics import hamming_score, f1
+#from models.custom_metrics import hamming_score, f1
 from keras import optimizers, regularizers
 from keras.callbacks import EarlyStopping
 # import matplotlib.pyplot as plt
 import logging, pickle
-from models.attention import *
+from attention import *
 from keras.utils import plot_model
-from models.metrics import *
+#from models.metrics import *
 from keras_bert import extract_embeddings, POOL_NSP, POOL_MAX
 from keras_bert import load_trained_model_from_checkpoint
-from models.Transformer_Attention import *
+from Transformer_Attention import *
 # config_path = 'C:\\Users\\52993\\.keras\\datasets\\wwm_uncased_L-24_H-1024_A-16\\bert_config.json'
 # checkpoint_path = 'C:\\Users\\52993\\.keras\\datasets\\wwm_uncased_L-24_H-1024_A-16\\bert_model.ckpt'
 
@@ -68,10 +68,10 @@ context_dropout_rate = dropout_rate
 context_dense_units = 128 #int(sys.argv[6])
 MAX_TEST_DATA = 5000
 
-logging.basicConfig(filename='../res/cnn_feature/{}_{}_{}_{}.log'.format(conv_units, dropout_rate, dense_units, max_len), level=logging.INFO)
+#logging.basicConfig(filename='../res/cnn_feature/{}_{}_{}_{}.log'.format(conv_units, dropout_rate, dense_units, max_len), level=logging.INFO)
 
 BASE_DIR = ''
-GLOVE_DIR = '../data/'
+GLOVE_DIR = 'C:\\Users\\wangs\\Documents\\GitFiles\\Respondent_Recommendation\\Data\\Gitter_Channels\\Scikitlearn\\ISPY\\glove.6B\\'
 # EMBEDDING_FILE = 'glove.6B.100d.txt'
 EMBEDDING_FILE = 'glove.6B.100d.txt'
 MAX_SEQUENCE_LENGTH = max_len
@@ -85,15 +85,15 @@ MAX_SENTENCE = 8
 # In[4]:
 
 
-train_file = '../data/issuedialog_v2/train_new_2.tsv'
-valid_file = '../data/issuedialog_v2/valid_new_2.tsv'
+train_file = 'C:\\Users\\wangs\\Documents\\GitFiles\\Respondent_Recommendation\\Data\\Gitter_Channels\\Scikitlearn\\ISPY\\train.tsv'
+valid_file = 'C:\\Users\\wangs\\Documents\\GitFiles\\Respondent_Recommendation\\Data\\Gitter_Channels\\Scikitlearn\\ISPY\\valid.tsv'
 # test_file = '../data/issuedialog_v2/test_new_2.tsv'
-test_file = '../proposed_dataset/new_test_cross_project/webpack.tsv'
+test_file = 'C:\\Users\\wangs\\Documents\\GitFiles\\Respondent_Recommendation\\Data\\Gitter_Channels\\Scikitlearn\\ISPY\\Scikitlearn.tsv'
 
-train_feat_file = '../data/issuedialog_v2/train_feat_new.tsv'
-valid_feat_file = '../data/issuedialog_v2/valid_feat_new.tsv'
+train_feat_file = 'C:\\Users\\wangs\\Documents\\GitFiles\\Respondent_Recommendation\\Data\\Gitter_Channels\\Scikitlearn\\ISPY\\train_features.tsv'
+valid_feat_file = 'C:\\Users\\wangs\\Documents\\GitFiles\\Respondent_Recommendation\\Data\\Gitter_Channels\\Scikitlearn\\ISPY\\valid_features.tsv'
 # test_feat_file = '../data/issuedialog_v2/test_feat_new.tsv'
-test_feat_file = '../proposed_dataset/new_test_cross_project/webpack_features.tsv'
+test_feat_file = 'C:\\Users\\wangs\\Documents\\GitFiles\\Respondent_Recommendation\\Data\\Gitter_Channels\\Scikitlearn\\ISPY\\Scikitlearn_features.tsv'
 
 
 
@@ -771,7 +771,7 @@ with open(test_out, 'w', encoding='utf8') as tout, open(test_feat_out, 'w', enco
 
         from copy import deepcopy
         # model.load_weights('weights_answer_classification_only.h5')
-        model2.load_weights('weights_issue_classification_only.h5')
+        model2.load_weights('../sota_model/weights_issue_classification_only.h5')
         # pred_val = model.predict([x_val_reshape, x_val_feat_with_context_reshape, x_val_with_context_reshape])
         # pred_test = model.predict([x_test_reshape, x_test_feat_with_context_reshape, x_test_with_context_reshape])
         # pred_val = model.predict([x_val_single, x_val_feat_with_context_single, x_val_with_context_single])

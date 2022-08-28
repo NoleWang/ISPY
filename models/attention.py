@@ -4,7 +4,7 @@ from matplotlib import pyplot as plt
 import pandas as pd
 
 from keras import backend as K
-from keras.engine.topology import Layer
+from tensorflow.keras.layers import Layer
 
 
 class Self_Attention(Layer):

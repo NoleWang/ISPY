@@ -23,7 +23,7 @@ if __name__ == '__main__':
         cursor_utter.execute(sql_utter)
         utterances = [row['utterance'] for row in cursor_utter.fetchall()]
 
-    vocab_file = 'data/vocab.tsv'
+    vocab_file = 'vocab.tsv'
 
     vocab = generate_vocab(map(clean_str, titles + utterances))
 
