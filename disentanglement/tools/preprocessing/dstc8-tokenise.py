@@ -260,6 +260,7 @@ if __name__ == '__main__':
             line_no += 1
             line = line.strip()
             if line=="":
+                print(line_no,"None!")
                 continue
             tokens = tokenise(line, args, vocab, users, line_no)
             print(' '.join(tokens), file=out)

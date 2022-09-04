@@ -28,7 +28,7 @@ if __name__ == '__main__':
     for input_filename in args.raw_data:
         if args.output_suffix is not None:
             out = open(input_filename + args.output_suffix, 'w')
-        data = open(input_filename)
+        data = open(input_filename,encoding="ISO-8859-1")
         line = ''
         while line is not None:
             try:

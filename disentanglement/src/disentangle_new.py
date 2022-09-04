@@ -12,15 +12,15 @@ FEATURES = 77
 
 parser = argparse.ArgumentParser(description='IRC Conversation Disentangler.')
 # General arguments
-parser.add_argument('--prefix', default="C:\\Users\\wangs\\Documents\\GitFiles\\Respondent_Recommendation\\ISPY\\disentanglement\\src\\example-train", help="Start of names for files produced.")
+parser.add_argument('--prefix', default="example-train", help="Start of names for files produced.")
 
 # Data arguments
 parser.add_argument('--train', nargs="+", default = "../data/train/*annotation.txt",help="Training files, e.g. train/*annotation.txt")# , default='../data/train/*annotation.txt'
 parser.add_argument('--dev', nargs="+", default="../data/dev/*annotation.txt", help="Development files, e.g. dev/*annotation.txt")# , default='../data/dev/*annotation.txt'
 parser.add_argument('--test', nargs="+", help="Test files, e.g. test/*annotation.txt", default="C:\\Users\\wangs\\Documents\\GitFiles\\Respondent_Recommendation\\Data\\Gitter_Channels\\Angular\\disentangle\\message_by_day\\*ascii*")# , default='../data/test_disentangled/*ascii*'
 parser.add_argument('--test-start', type=int, help="The line to start making predictions from in each test file.", default=0)#, default=0
-parser.add_argument('--test-end', type=int, help="The line to stop making predictions on in each test files.", default=1280)# , default=105930
-parser.add_argument('--model', help="A file containing a trained model", default='C:\\Users\\wangs\\Documents\\GitFiles\\Respondent_Recommendation\\ISPY\\disentanglement\\src\\disentangle.dy_new.model')#
+parser.add_argument('--test-end', type=int, help="The line to stop making predictions on in each test files.", default=128000)# , default=105930
+parser.add_argument('--model', help="A file containing a trained model", default='disentangle.dy_new.model')#
 parser.add_argument('--random-sample', help="Train on only a random sample of the data with this many examples.")
 
 # Model arguments
@@ -163,8 +163,8 @@ def lines_to_info(text_ascii):
     nexts = {}
     for line_no, line in enumerate(text_ascii):
         #print(line)
-        if len(line) == 0:
-            continue
+        #if len(line) == 0:
+            #continue
         if line[0].startswith("["):
             user = line[1][1:-1]
             nexts.setdefault(user, []).append(line_no)
@@ -172,8 +172,8 @@ def lines_to_info(text_ascii):
     prev = {}
     for line_no, line in enumerate(text_ascii):
         print(line)
-        if len(line) == 0:
-            continue
+        #if len(line) == 0 or not line[0].startswith("["):
+            #continue
         user = line[1]
         system = True
         if line[0].startswith("["):
