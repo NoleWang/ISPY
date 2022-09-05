@@ -2,9 +2,9 @@
 将以天为单位存储的解耦后文件合并成一个文件
 """
 import os
-path = "/home/yuminz/message/scala_scala/"
+path = "..\\..\\..\\..\\Data\\Gitter_Channels\\Angular\\disentangle\\message_by_day\\disentangled\\"
 dir = os.listdir(path)
-file = open("/home/yuminz/message/scala_scala.txt","w",encoding="UTF-8")
+file = open("..\\..\\..\\..\\Data\\Gitter_Channels\\Angular\\disentangle\\Angular_result.txt","w",encoding="UTF-8")
 dir.sort()
 for fileName in dir:
     row = 1
@@ -14,7 +14,7 @@ for fileName in dir:
             row =1
             print(line)
         else:
-          line =str(row)+" "+line
+          line =str(row)+" ["+fileName[:10] + " " + line[1:]
           row = row + 1
           file.write(line)
           print(line)

@@ -5,6 +5,7 @@ from __future__ import print_function
 import argparse
 import logging
 import sys
+import glob
 
 def find(x, parents):
     while parents[x] != x:
@@ -55,55 +56,59 @@ if __name__ == '__main__':
     parser.add_argument('--min-speakers', help="Only print conversations with this many or more participants (not counting the channel bot)", type=int)
     args = parser.parse_args()
 
-    # Hold-over from multi-file code
-    filename = ""
+    ascii_files = glob.glob(r''+str(args.ascii))
+    annotation_files = glob.glob(r''+str(args.annotations))
+    for ascii_file, annotation_file in zip(ascii_files,annotation_files):
+        print(ascii_file, annotation_file)
+        # Hold-over from multi-file code
+        filename = ""
 
-    nodes = {}
-    edges = {}
-    cutoffs = {}
-    for line in open(args.annotations):
-        parts = [int(v) for v in line.strip().split() if v != '-']
-        source = max(parts)
-        nodes.setdefault(filename, set()).add(source)
-        parts.remove(source)
-        for num in parts:
-            edges.setdefault(filename, []).append((source, num))
-            nodes.setdefault(filename, set()).add(num)
+        nodes = {}
+        edges = {}
+        cutoffs = {}
+        for line in open(annotation_file):
+            parts = [int(v) for v in line.strip().split() if v != '-']
+            source = max(parts)
+            nodes.setdefault(filename, set()).add(source)
+            parts.remove(source)
+            for num in parts:
+                edges.setdefault(filename, []).append((source, num))
+                nodes.setdefault(filename, set()).add(num)
 
-    text = {}
-    for line in open(args.ascii, encoding='utf8'):
-        text.setdefault(filename, []).append(line.strip())
+        text = {}
+        for line in open(ascii_file, encoding='utf8'):
+            text.setdefault(filename, []).append(line.strip())
 
-    for filename in nodes:
-        clusters = union_find(nodes[filename], edges[filename])
-        ## TODO add a new line
-        message = args.annotations.split("/")[-1]
-        with open("../../data/message/"+message,"w", encoding='utf8') as f:
-            for cluster in clusters:
-                if args.max_speakers or args.min_speakers:
-                    speakers = set()
+        for filename in nodes:
+            clusters = union_find(nodes[filename], edges[filename])
+            ## TODO add a new line
+            message = annotation_file.split("\\")[-1]
+            with open("..\\..\\..\\..\\Data\\Gitter_Channels\\Angular\\disentangle\\message_by_day\\disentangled\\"+message[:10]+".disentangled.txt","w", encoding='utf8') as f:
+                for cluster in clusters:
+                    if args.max_speakers or args.min_speakers:
+                        speakers = set()
+                        for num in cluster:
+                            line = text[filename][num]
+                            speaker = line.split()[1]
+                            if line.startswith("["):
+                                speaker = speaker[1:-1]
+                            if speaker not in {'ubotu', 'ubottu'}:
+                                speakers.add(speaker)
+                        if args.max_speakers and len(speakers) > args.max_speakers:
+                            continue
+                        if args.min_speakers and len(speakers) < args.min_speakers:
+                            continue
+                    if not args.keep_sys:
+                        all_sys = True
+                        for num in cluster:
+                            if text[filename][num].startswith("["):
+                                all_sys = False
+                        if all_sys:
+                            continue
+
                     for num in cluster:
-                        line = text[filename][num]
-                        speaker = line.split()[1]
-                        if line.startswith("["):
-                            speaker = speaker[1:-1]
-                        if speaker not in {'ubotu', 'ubottu'}:
-                            speakers.add(speaker)
-                    if args.max_speakers and len(speakers) > args.max_speakers:
-                        continue
-                    if args.min_speakers and len(speakers) < args.min_speakers:
-                        continue
-                if not args.keep_sys:
-                    all_sys = True
-                    for num in cluster:
-                        if text[filename][num].startswith("["):
-                            all_sys = False
-                    if all_sys:
-                        continue
+                        #print(text[filename][num])
+                        f.write(text[filename][num]+"\n")
 
-                for num in cluster:
-                    #print(text[filename][num])
-                    f.write(text[filename][num]+"\n")
-
-                #print("----------------------------------------------------------------------------------------------------")
-                f.write("--------------------------------------------------------------------------------------------------\n")
+                    #print("----------------------------------------------------------------------------------------------------")
+                    f.write("--------------------------------------------------------------------------------------------------\n")
